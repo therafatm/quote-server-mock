@@ -6,7 +6,7 @@ import (
     "log"
     "math/rand"
     "time"
-
+    "os"
     "github.com/gorilla/mux"
 )
 
@@ -37,7 +37,11 @@ func getQuote(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     router :=  mux.NewRouter()
-    port := 8000
+    port, err := strconv.Atoi(os.Getenv("QUOTE_SERVER_PORT"))
+    
+    if err != nil{
+        log.Fatal(err)
+    }
 
     log.Println("Running quote server on port: " + strconv.Itoa(port) )
     router.HandleFunc("/api/getQuote/{username}/{stock}", getQuote)
