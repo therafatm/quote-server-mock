@@ -2,8 +2,8 @@ FROM golang:latest
 
 EXPOSE 8000
 
-COPY . /go/src/quote-server-mock
-WORKDIR /go/src/quote-server-mock
+COPY . /go/src/quote_server_mock
+WORKDIR /go/src/quote_server_mock
 
 RUN go get github.com/pilu/fresh
-RUN go get -d ./...
+RUN go get ./...
