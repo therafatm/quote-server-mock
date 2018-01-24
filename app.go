@@ -1,25 +1,25 @@
 package main
 
 import (
-    "net/http"
-    "strconv"
-    "log"
-    "math/rand"
-    "time"
-    "os"
-    "github.com/gorilla/mux"
+	"log"
+	"math/rand"
+	"net/http"
+	"strconv"
+	"time"
+
+	"github.com/gorilla/mux"
 )
 
 
 
 func generateString(n int) string {
 
-    var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    b := make([]rune, n)
-    for i := range b {
-        b[i] = letters[rand.Intn(len(letters))]
-    }
-    return string(b)
+	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }
 
 func getQuote(w http.ResponseWriter, r *http.Request) {
@@ -44,19 +44,15 @@ func getQuote(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-    router :=  mux.NewRouter()
-    port, err := strconv.Atoi(os.Getenv("QUOTE_SERVER_PORT"))
-    
-    if err != nil{
-        log.Fatal(err)
-    }
+	router := mux.NewRouter()
+	port := 8000
 
-    log.Println("Running quote server on port: " + strconv.Itoa(port) )
-    router.HandleFunc("/api/getQuote/{username}/{stock}", getQuote)
-    http.Handle("/", router)
+	log.Println("Running quote server on port: " + strconv.Itoa(port))
+	router.HandleFunc("/api/getQuote/{username}/{stock}", getQuote)
+	http.Handle("/", router)
 
-    if err := http.ListenAndServe(":" + strconv.Itoa(port), nil); err != nil {
-        log.Fatal(err)
-        panic(err)
-    }
+	if err := http.ListenAndServe(":"+strconv.Itoa(port), nil); err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
 }
