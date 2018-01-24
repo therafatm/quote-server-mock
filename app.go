@@ -10,6 +10,8 @@ import (
     "github.com/gorilla/mux"
 )
 
+
+
 func generateString(n int) string {
 
     var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
@@ -21,14 +23,20 @@ func generateString(n int) string {
 }
 
 func getQuote(w http.ResponseWriter, r *http.Request) {
+    stock := mux.Vars(r)["stock"]
 
     source := rand.NewSource(time.Now().UnixNano())
     root := rand.New(source)
+
     dollars := root.Intn(10000)
     cents := root.Intn(99)
     
     price := strconv.Itoa(dollars) + "." + strconv.Itoa(cents)
-    stock := mux.Vars(r)["stock"]
+
+    if stock == "TEST" {
+        price = "200.00"
+    }
+
     crypto := generateString(10)
 
     message := price + "," + stock + "," + crypto
