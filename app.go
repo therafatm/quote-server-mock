@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"fmt"
 
 	"github.com/gorilla/mux"
 )
@@ -39,7 +40,9 @@ func getQuote(w http.ResponseWriter, r *http.Request) {
 
     crypto := generateString(10)
 
-    message := price + "," + stock + "," + crypto
+   	t := time.Now().UTC().UnixNano()
+
+    message := fmt.Sprintf("%s,%s,%d,%s", price, stock, t, crypto)
     w.Write([]byte(message))
 }
 
