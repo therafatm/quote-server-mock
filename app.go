@@ -1,17 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
-	"fmt"
 
 	"github.com/gorilla/mux"
 )
-
-
 
 func generateString(n int) string {
 
@@ -24,26 +22,27 @@ func generateString(n int) string {
 }
 
 func getQuote(w http.ResponseWriter, r *http.Request) {
-    stock := mux.Vars(r)["stock"]
 
-    source := rand.NewSource(time.Now().UnixNano())
-    root := rand.New(source)
+	stock := mux.Vars(r)["stock"]
 
-    dollars := root.Intn(100)
-    cents := root.Intn(99)
-    
-    price := strconv.Itoa(dollars) + "." + strconv.Itoa(cents)
+	source := rand.NewSource(time.Now().UnixNano())
+	root := rand.New(source)
 
-    if stock == "TEST" {
-        price = "2132.23"
-    }
+	dollars := root.Intn(100)
+	cents := root.Intn(99)
 
-    crypto := generateString(10)
+	price := strconv.Itoa(dollars) + "." + strconv.Itoa(cents)
 
-   	t := time.Now().UTC().UnixNano()
+	if stock == "TST" {
+		price = "200.00"
+	}
 
-    message := fmt.Sprintf("%s,%s,%d,%s", price, stock, t, crypto)
-    w.Write([]byte(message))
+	crypto := generateString(10)
+
+	t := time.Now().UnixNano() / int64(time.Millisecond)
+
+	message := fmt.Sprintf("%s,%s,%d,%s", price, stock, t, crypto)
+	w.Write([]byte(message))
 }
 
 func main() {
