@@ -28,13 +28,13 @@ func getQuote(w http.ResponseWriter, r *http.Request) {
     source := rand.NewSource(time.Now().UnixNano())
     root := rand.New(source)
 
-    dollars := root.Intn(10000)
+    dollars := root.Intn(100)
     cents := root.Intn(99)
     
     price := strconv.Itoa(dollars) + "." + strconv.Itoa(cents)
 
     if stock == "TEST" {
-        price = "200.00"
+        price = "2132.23"
     }
 
     crypto := generateString(10)
