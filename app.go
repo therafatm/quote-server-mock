@@ -24,7 +24,7 @@ func generateString(n int) string {
 func getQuote(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	stock := vars["stock"]
-	username := vars["stock"]
+	username := vars["username"]
 
 	source := rand.NewSource(time.Now().UnixNano())
 	root := rand.New(source)
