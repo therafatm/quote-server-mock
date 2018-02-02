@@ -22,8 +22,9 @@ func generateString(n int) string {
 }
 
 func getQuote(w http.ResponseWriter, r *http.Request) {
-
-	stock := mux.Vars(r)["stock"]
+	vars := mux.Vars(r)
+	stock := vars["stock"]
+	username := vars["stock"]
 
 	source := rand.NewSource(time.Now().UnixNano())
 	root := rand.New(source)
@@ -41,7 +42,7 @@ func getQuote(w http.ResponseWriter, r *http.Request) {
 
 	t := time.Now().UnixNano() / int64(time.Millisecond)
 
-	message := fmt.Sprintf("%s,%s,%d,%s", price, stock, t, crypto)
+	message := fmt.Sprintf("%s,%s,%s,%d,%s", price, stock, username, t, crypto)
 	w.Write([]byte(message))
 }
 
