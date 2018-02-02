@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -48,13 +49,13 @@ func getQuote(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-	port := 8000
+	port := os.Getenv("QUOTE_SERVER_PORT")
 
-	log.Println("Running quote server on port: " + strconv.Itoa(port))
+	log.Println("Running quote server on port: " + port)
 	router.HandleFunc("/api/getQuote/{username}/{stock}", getQuote)
 	http.Handle("/", router)
 
-	if err := http.ListenAndServe(":"+strconv.Itoa(port), nil); err != nil {
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal(err)
 		panic(err)
 	}
